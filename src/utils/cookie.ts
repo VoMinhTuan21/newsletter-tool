@@ -1,4 +1,4 @@
-import { NewsLettersRefreshToken, NewslettersToken } from '@/constant';
+import { NewslettersToken } from '@/constant';
 import { getCookie, setCookie } from 'cookies-next';
 
 export const cookieUtils = {

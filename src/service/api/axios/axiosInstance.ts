@@ -1,7 +1,7 @@
 import { cookieUtils } from '@/utils/cookie';
 import axios from 'axios';
 
-var mainURL = process.env.ThirdPartyAPI;
+const mainURL = process.env.ThirdPartyAPI;
 
 const axiosInstance = axios.create({
   baseURL: mainURL ?? 'https://dummyjson.com',
@@ -33,13 +33,12 @@ axiosInstance.interceptors.response.use(
 
     if (error.response && error.response.status === 401) {
       originalRequest._retry = true;
-      var token = cookieUtils.getToken();
+      const token = cookieUtils.getToken();
       if (token) {
         const response = await axios.post(`${mainURL}/api/v3/account/refreshtoken`, {token});
         const originalContentType = originalRequest.headers['Content-Type'];
 
         if (response.data?.token) {
-          const originalContentType = originalRequest.headers['Content-Type'];
           originalRequest.headers.Authorization = 'Bearer ' + response.data.token;
           cookieUtils.setToken(response.data.token);
         }

@@ -95,7 +95,7 @@ export default function NewsletterForm({ form, onFinish }: Props) {
 				</Form.List>
 				<div className="mt-6"></div>
 				<Form.Item label="Content" name="content">
-					{/* @ts-ignore */}
+					{/* @ts-expect-error: missing prop values */}
 					<TextEditor />
 				</Form.Item>
 

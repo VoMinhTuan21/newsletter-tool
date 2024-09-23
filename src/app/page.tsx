@@ -21,7 +21,7 @@ const Home: React.FC = () => {
 		}
 
 		if (values.content) {
-			var contentElement = domUtils.createContentElement(values.content);
+			const contentElement = domUtils.createContentElement(values.content);
 			cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, contentElement, "content here");
 		}
 

@@ -1,6 +1,5 @@
 import { FieldTypes } from "@/components/newsletter-form/newsletter-form";
 import { Job } from "@/model/auth";
-import { IHunterLeaderboard } from "@/model/leaderboard";
 import { jobAPI } from "@/service/api/jobs";
 import { leaderboardAPI } from "@/service/api/leaderboard";
 import { utils } from "@/utils";
@@ -8,7 +7,7 @@ import { stringUtils } from "@/utils/string";
 
 export const domUtils = {
 	createJobItemElement: (job: Job) => {
-		let nf = new Intl.NumberFormat("en-US");
+		const nf = new Intl.NumberFormat("en-US");
 		const li = document.createElement("li");
 		li.style.fontFamily = "Google Sans, Roboto, RobotoDraft, Helvetica, Arial, sans-serif";
 		li.style.marginBottom = "5px";

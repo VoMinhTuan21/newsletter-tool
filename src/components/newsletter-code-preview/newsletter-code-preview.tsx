@@ -38,7 +38,7 @@ export default function NewsLetterCodePreview({htmlCode}: Props) {
     }).then(data => {
       setFormattedCode(data);
     })
-  }, [htmlCode]);
+  }, [htmlCode, replacements]);
 
   useEffect(() => {
     let timeout = undefined;

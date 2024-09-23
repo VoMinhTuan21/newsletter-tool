@@ -4,8 +4,8 @@ import { NextPage } from "next";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const withAuth = (Component: NextPage) => {
-	return (props: any) => {
+const withAuth = <P extends object>(Component: NextPage) => {
+	const ComponentWithAuth: NextPage<P> = (props) => {
 		const router = useRouter();
 		const token = cookieUtils.getToken();
 
@@ -13,7 +13,7 @@ const withAuth = (Component: NextPage) => {
 			try {
 				const authResponse = await authAPI.refreshToken(token);
 				cookieUtils.setToken(authResponse.data.token);
-			} catch (error) {
+			} catch {
 				router.push("/login");
 			}
 		};
@@ -28,6 +28,8 @@ const withAuth = (Component: NextPage) => {
 
 		return <Component {...props} />;
 	};
+
+	return ComponentWithAuth;
 };
 
 export default withAuth;

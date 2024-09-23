@@ -29,14 +29,10 @@ const formats = [
   "image"
 ];
 
-interface OnChangeHandler {
-	(e: any): void;
-}
-
 type Props = {
 	value: string;
 	placeholder: string;
-	onChange: OnChangeHandler;
+	onChange: (value: string) => void;
 };
 
 export default function TextEditor({ value, onChange, placeholder }: Props) {
