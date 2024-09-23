@@ -1,0 +1,10 @@
+.preview {
+  [class*=ant-tabs-content] {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  [class*=ant-tabs-tabpane-active] {
+    height: 100%;
+  }
+}
