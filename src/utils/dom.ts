@@ -175,7 +175,7 @@ export const domUtils = {
 		const thead = document.createElement("thead");
 		const headerRow = document.createElement("tr");
 
-		const headers = ["Hạng", "Hunter", "Điểm"];
+		const headers = ["Hạng", "Hunter", ""];
 		headers.forEach((headerText) => {
 			const th = document.createElement("th");
 			th.style.textAlign = headerText === "Hạng" ? "left" : "center";
