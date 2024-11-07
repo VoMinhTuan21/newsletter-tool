@@ -3,12 +3,13 @@ import React from "react";
 import { CloseOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 const TextEditor = dynamic(() => import("@/components/text-editor/text-editor"), {ssr: false});
+const { TextArea } = Input;
 
 export interface FieldTypes {
 	content?: string;
 	jobGroup: [{
 		name: string;
-		list: [{ link: string }]
+		list: string;
 	}]
 }
 
@@ -30,21 +31,21 @@ export default function NewsletterForm({ form, onFinish }: Props) {
 				initialValues={{ jobGroup: [
 					{
 						name: "non it",
-						list: []
+						list: ""
 					},
 					{
 						name: "high level",
-						list: []
+						list: ""
 					},
 					{
 						name: "mass",
-						list: []
+						list: ""
 					},
 				] }}
 				layout="vertical"
 			>
 				<Form.List name="jobGroup">
-					{(fields, { add, remove }) => (
+					{(fields, { remove }) => (
 						<div className="flex flex-col gap-y-4">
 							{fields.map((field, index) => (
 								<div key={field.key}>
@@ -59,37 +60,11 @@ export default function NewsletterForm({ form, onFinish }: Props) {
 									<Form.Item label="Name" name={[field.name, "name"]}>
 										<Input />
 									</Form.Item>
-
-									{/* Nest Form.List */}
-									<Form.Item label="List">
-										<Form.List name={[field.name, "list"]}>
-											{(subFields, subOpt) => (
-												<div className="flex flex-col gap-y-4">
-													{subFields.map((subField) => (
-														<div className="flex gap-3" key={subField.key}>
-															<Form.Item key={subField.key} noStyle name={[subField.name, "link"]}>
-																<Input placeholder="https://abcd.com" />
-															</Form.Item>
-															<CloseOutlined
-																onClick={() => {
-																	subOpt.remove(subField.name);
-																}}
-															/>
-														</div>
-													))}
-													<Button type="dashed" onClick={() => subOpt.add()} block>
-														+ Add Sub Item
-													</Button>
-												</div>
-											)}
-										</Form.List>
+									<Form.Item label="List" name={[field.name, "list"]}>
+										<TextArea placeholder="Autosize height based on content lines" autoSize />
 									</Form.Item>
 								</div>
 							))}
-
-							<Button type="dashed" onClick={() => add()} block>
-								+ Add Item
-							</Button>
 						</div>
 					)}
 				</Form.List>
@@ -104,14 +79,6 @@ export default function NewsletterForm({ form, onFinish }: Props) {
 						Convert
 					</Button>
 				</Form.Item>
-
-				{/* <Form.Item noStyle shouldUpdate>
-							{() => (
-								<Typography>
-									<pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-								</Typography>
-							)}
-						</Form.Item> */}
 			</Form>
 		</div>
 	);
