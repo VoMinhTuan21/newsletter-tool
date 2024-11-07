@@ -11,13 +11,13 @@ const Home: React.FC = () => {
 	const [htmlCode, setHtmlCode] = useState("");
 
 	const onFinish: FormProps['onFinish'] = async (values: FieldTypes) => {
-		
-		let cloneHtmlCode = htmlCode
+		const fetchedHtmlCode = await fetchHtml();
+
+		let cloneHtmlCode = fetchedHtmlCode; 
 		
 		if (values.jobGroup && values.jobGroup.length) {
 			const listJobs = await domUtils.createListJobItems(values.jobGroup);
 			cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, listJobs, "job list here");
-			
 		}
 
 		if (values.content) {
@@ -39,8 +39,10 @@ const Home: React.FC = () => {
 			}
 			const text = await response.text();
 			setHtmlCode(text);
+			return text; 
 		} catch (error) {
 			console.error('Failed to fetch HTML file:', error);
+			return "";
 		}
 	};
 

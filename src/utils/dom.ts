@@ -50,10 +50,12 @@ export const domUtils = {
 
 			const ol = document.createElement("ol");
 
-			for (const link of group.list) {
-				const job = await jobAPI.getDetail(parseInt(link.link.split("/")?.pop() ?? "0")).then((data) => data.data);
-				const jobListItem = domUtils.createJobItemElement(job);
-				ol.appendChild(jobListItem);
+			for (const link of domUtils.extractValidUrls(group.list)) {
+				if (link) {
+					const job = await jobAPI.getDetail(parseInt(link.split("/")?.pop() ?? "0")).then((data) => data.data);
+					const jobListItem = domUtils.createJobItemElement(job);
+					ol.appendChild(jobListItem);
+				}
 			}
 
 			listItems.push(ol);
@@ -160,7 +162,7 @@ export const domUtils = {
 		}
 	},
 	createLeaderboardTable: async () => {
-		const data = (await leaderboardAPI.getHunterList()).data.slice(0,5);
+		const data = (await leaderboardAPI.getHunterList()).data.slice(0, 5);
 		// Create the table element
 		const table = document.createElement("table");
 		table.style.color = "rgb(0, 0, 0)";
@@ -237,7 +239,7 @@ export const domUtils = {
 
 			// Points cell
 			const pointsCell = document.createElement("td");
-			pointsCell.textContent = `${Math.floor(item.point/1000000)} Triệu`;
+			pointsCell.textContent = `${Math.floor(item.point / 1000000)} Triệu`;
 			row.appendChild(pointsCell);
 
 			tbody.appendChild(row);
@@ -264,5 +266,23 @@ export const domUtils = {
 		table.appendChild(tbody);
 
 		return table;
+	},
+	isValidUrl: (url: string): boolean => {
+		const urlPattern = new RegExp(
+			"^(https?:\\/\\/)?" + // protocol
+				"((([a-z0-9\\-]+\\.)+[a-z]{2,})|" + // domain name
+				"localhost|" + // localhost
+				"\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|" + // IP address
+				"\\[?[a-f0-9]*:[a-f0-9:%.~+\\-]*\\]?)" + // IPv6
+				"(\\:\\d+)?(\\/[-a-z0-9+&@#\\/%=~_|\\?\\.:,]*)*$",
+			"i"
+		); // path
+		return !!urlPattern.test(url);
+	},
+	extractValidUrls: (input: string): string[] => {
+		return input
+			.split("\n")
+			.map((url) => url.trim())
+			.filter((url) => domUtils.isValidUrl(url));
 	},
 };
