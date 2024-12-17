@@ -11,24 +11,28 @@ const Home: React.FC = () => {
 	const [htmlCode, setHtmlCode] = useState("");
 
 	const onFinish: FormProps['onFinish'] = async (values: FieldTypes) => {
-		const fetchedHtmlCode = await fetchHtml();
-
-		let cloneHtmlCode = fetchedHtmlCode; 
-		
-		if (values.jobGroup && values.jobGroup.length) {
-			const listJobs = await domUtils.createListJobItems(values.jobGroup);
-			cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, listJobs, "job list here");
+		try {
+			const fetchedHtmlCode = await fetchHtml();
+	
+			let cloneHtmlCode = fetchedHtmlCode; 
+			
+			if (values.jobGroup && values.jobGroup.length) {
+				const listJobs = await domUtils.createListJobItems(values.jobGroup);
+				cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, listJobs, "job list here");
+			}
+	
+			if (values.content) {
+				const contentElement = domUtils.createContentElement(values.content);
+				cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, contentElement, "content here");
+			}
+	
+			const leaderboardElement = await domUtils.createLeaderboardTable()
+			cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, [leaderboardElement], "leaderboard here");
+	
+			setHtmlCode(cloneHtmlCode);
+		} catch (error) {
+			console.log("error: ", error);
 		}
-
-		if (values.content) {
-			const contentElement = domUtils.createContentElement(values.content);
-			cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, contentElement, "content here");
-		}
-
-		const leaderboardElement = await domUtils.createLeaderboardTable()
-		cloneHtmlCode = domUtils.insertHtmlElementsAtComment(cloneHtmlCode, [leaderboardElement], "leaderboard here");
-
-		setHtmlCode(cloneHtmlCode);
 	}
 
 	const fetchHtml = async () => {
