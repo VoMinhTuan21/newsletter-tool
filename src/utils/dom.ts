@@ -15,12 +15,12 @@ export const domUtils = {
 		// Create the <span> element for the price
 		const span = document.createElement("span");
 		span.style.color = "rgb(255, 255, 255)";
-		span.style.backgroundColor = "#0e5135";
+		span.style.backgroundColor = "#ff4d4f";
 		span.style.fontWeight = "700";
 		span.style.padding = "0.05em 0.5em 0.1em";
 		span.style.whiteSpace = "nowrap";
 		span.style.borderRadius = "15px";
-		span.textContent = `Thưởng ${nf.format(job.bonusAmount)} VNĐ`;
+		span.textContent = `Thưởng ${Math.round(job.bonusAmount/ 1000000)} Triệu VNĐ`;
 
 		// Create the <a> element for the job name
 		const a = document.createElement("a");
@@ -177,10 +177,10 @@ export const domUtils = {
 		const thead = document.createElement("thead");
 		const headerRow = document.createElement("tr");
 
-		const headers = ["Hạng", "Hunter", ""];
+		const headers = ["Hạng", "Hunter", "Tiền thưởng"];
 		headers.forEach((headerText) => {
 			const th = document.createElement("th");
-			th.style.textAlign = headerText === "Hạng" ? "left" : "center";
+			th.style.textAlign = headerText === "Hạng" || headerText === "Tiền thưởng"  ? "left" : "center";
 			th.style.borderBottom = "1px solid rgb(237, 240, 241)";
 
 			if (headerText === "Hạng") {
