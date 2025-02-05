@@ -7,7 +7,6 @@ import { stringUtils } from "@/utils/string";
 
 export const domUtils = {
 	createJobItemElement: (job: Job) => {
-		const nf = new Intl.NumberFormat("en-US");
 		const li = document.createElement("li");
 		li.style.fontFamily = "Google Sans, Roboto, RobotoDraft, Helvetica, Arial, sans-serif";
 		li.style.marginBottom = "5px";
